@@ -1,0 +1,9 @@
+.notFoundContainer {
+    text-align: center;
+    padding: 20px;
+}
+
+.notFoundText {
+    font-size: 24px;
+    color: #333;
+}
