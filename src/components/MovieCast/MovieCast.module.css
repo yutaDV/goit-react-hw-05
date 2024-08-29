@@ -1,0 +1,33 @@
+
+.castContainer {
+    padding: 20px;
+}
+
+.castList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    /* Простір між елементами списку */
+}
+
+.castItem {
+    text-align: center;
+    width: 150px;
+    /* Ширина контейнера для зображення */
+}
+
+.castImage {
+    width: 150px;
+    /* Ширина зображення */
+    height: 200px;
+    /* Висота зображення */
+    border-radius: 8px;
+    /* Краї округлені для кращого вигляду */
+    object-fit: cover;
+    /* Щоб зображення заповнювало контейнер без спотворень */
+}
+
+.castName {
+    margin-top: 8px;
+    font-weight: bold;
+}

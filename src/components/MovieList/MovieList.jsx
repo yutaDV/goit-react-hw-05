@@ -1,17 +1,30 @@
 
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import css from './MovieList.module.css';
 
 const MovieList = ({ movies }) => {
   return (
     <ul className={css.list}>
       {movies.map(movie => (
-        <li key={movie.id} className={css.item}>
-          {/* Структура для відображення інформації про фільм */}
-          <h3>{movie.title}</h3>
+        <li key={movie.id}>
+          <Link to={`/movies/${movie.id}`}>
+            {movie.title || movie.name}
+          </Link>
         </li>
       ))}
     </ul>
   );
 };
 
-export default MovieList; // Експорт за замовчуванням
+MovieList.propTypes = {
+  movies: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string,
+      name: PropTypes.string,
+    })
+  ).isRequired,
+};
+
+export default MovieList;

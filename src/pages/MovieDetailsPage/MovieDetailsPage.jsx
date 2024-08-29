@@ -1,12 +1,13 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link, Outlet, useNavigate } from 'react-router-dom';
 import { fetchMovieDetails } from '../../services/fetchMovieDetails';
-import styles from './MovieDetailsPage.module.css';
+import css from './MovieDetailsPage.module.css';
 
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const navigate = useNavigate();
+  const baseUrl = 'https://image.tmdb.org/t/p/w500';
 
   useEffect(() => {
     const getMovieDetails = async () => {
@@ -21,15 +22,23 @@ const MovieDetailsPage = () => {
   }, [movieId]);
 
   return (
-    <div className={styles.container}>
-      <button onClick={() => navigate(-1)} className={styles.goBackButton}>Go back</button>
+    <div className={css.container}>
+      <button onClick={() => navigate(-1)} className={css.goBackButton}>
+        Go back
+      </button>
       {movie && (
         <>
           <h2>{movie.title}</h2>
-          <p>{movie.overview}</p>
-          {/* Відображення зображення та іншої інформації */}
-          <Link to="cast" className={styles.link}>Cast</Link>
-          <Link to="reviews" className={styles.link}>Reviews</Link>
+          {movie.poster_path && (
+            <img
+              src={`${baseUrl}${movie.poster_path}`}
+              alt={movie.title}
+              className={css.poster}
+            />
+          )}
+          <p className={css.overview}>{movie.overview}</p>
+          <Link to="cast" className={css.link}>Cast</Link>
+          <Link to="reviews" className={css.link}>Reviews</Link>
           <Outlet />
         </>
       )}
