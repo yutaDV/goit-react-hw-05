@@ -1,5 +1,5 @@
-import  { useState } from 'react';
-import { fetchMoviesByQuery } from '../../services/api';
+import { useState } from 'react';
+import { fetchMoviesByQuery } from '../../services/fetchMoviesByQuery ';
 import MovieList from '../../components/MovieList/MovieList';
 import css from './MoviesPage.module.css';
 
@@ -19,7 +19,7 @@ const MoviesPage = () => {
 
   return (
     <div className={css.container}>
-      <form onSubmit={handleSearch} className={styles.form}>
+      <form onSubmit={handleSearch} className={css.form}>
         <input
           type="text"
           value={query}
