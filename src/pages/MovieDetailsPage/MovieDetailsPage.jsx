@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link, Outlet, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { useParams, Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { fetchMovieDetails } from '../../services/fetchMovieDetails';
 import css from './MovieDetailsPage.module.css';
 
@@ -7,6 +7,8 @@ const MovieDetailsPage = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const previousLocation = useRef(location); // Збереження попереднього стану розташування
   const baseUrl = 'https://image.tmdb.org/t/p/w500';
 
   useEffect(() => {
@@ -21,9 +23,17 @@ const MovieDetailsPage = () => {
     getMovieDetails();
   }, [movieId]);
 
+  const handleGoBack = () => {
+    if (previousLocation.current) {
+      navigate(previousLocation.current.state?.from || '/');
+    } else {
+      navigate(-1);
+    }
+  };
+
   return (
     <div className={css.container}>
-      <button onClick={() => navigate(-1)} className={css.goBackButton}>
+      <button onClick={handleGoBack} className={css.goBackButton}>
         Go back
       </button>
       {movie && (

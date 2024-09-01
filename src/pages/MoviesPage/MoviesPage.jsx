@@ -1,19 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { fetchMoviesByQuery } from '../../services/fetchMoviesByQuery ';
 import MovieList from '../../components/MovieList/MovieList';
 import css from './MoviesPage.module.css';
 
 const MoviesPage = () => {
-  const [query, setQuery] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
   const [movies, setMovies] = useState([]);
+  
+  const query = searchParams.get('query') || '';
 
-  const handleSearch = async (e) => {
+  useEffect(() => {
+    if (query) {
+      const fetchMovies = async () => {
+        try {
+          const data = await fetchMoviesByQuery(query);
+          setMovies(data.results);
+        } catch (error) {
+          console.error('Error fetching movies:', error);
+        }
+      };
+      fetchMovies();
+    }
+  }, [query]);
+
+  const handleSearch = (e) => {
     e.preventDefault();
-    try {
-      const data = await fetchMoviesByQuery(query);
-      setMovies(data.results);
-    } catch (error) {
-      console.error('Error fetching movies:', error);
+    const searchQuery = e.target.elements.query.value.trim();
+    if (searchQuery) {
+      setSearchParams({ query: searchQuery });
     }
   };
 
@@ -22,8 +37,8 @@ const MoviesPage = () => {
       <form onSubmit={handleSearch} className={css.form}>
         <input
           type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          name="query"
+          defaultValue={query}
           className={css.input}
           placeholder="Search for movies..."
         />
